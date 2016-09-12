@@ -1,2 +1,3 @@
-# TemporalCores
-Temporal cores algorithm
+# Graph
+
+Package for network analysis
