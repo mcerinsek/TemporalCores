@@ -64,18 +64,20 @@ def FindVstar(core, u, v, G, mcd):
         while S:
             #while nodes:
             w = S.pop()
-            if not visited[w]:
-                if cd[w] < K:
-                    #nodes.remove(w)
-                    Vstar.append(w)
-                    core[w] -= 1
-                    for neighbor in G.neighbors(w):
-                        if core[neighbor] == K:
-                            cd[neighbor] -= 1
-                visited[w] = True
-                for neighbor in G.neighbors(w):
-                    if not visited[neighbor]:
-                        S.append(neighbor)
+            if cd[w] < K:
+                nodes.remove(w)
+                Vstar.append(w)
+                core[w] -= 1
+                neighbors = intersect(nodes, G.neighbors(w))
+                for neighbor in neighbors:
+                    if core[neighbor] == K:
+                        cd[neighbor] -= 1
+                        if visited[neighbor] == False:
+                            S.append(neighbor)
+                            visited[neighbor] = True
+            # If cd[w] >= K we go to next neighbor in S.
+            # If none of the neighbors in S have cd[w] < K, 
+            #     we stop because Vstar must be connected.
     return list(set(Vstar)), core
 
 def RemainingDegree(G, kOrder):
